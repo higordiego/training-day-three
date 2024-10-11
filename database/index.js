@@ -8,7 +8,7 @@ const tryConnect = (uri, opts) => mongoose.connect(uri, opts)
 
 const setupReconnection = (uri, maxReties, opts) => {
   mongoose.connection.on('disconnected', () => {
-    console.log('MongoDB disconected. Attempting to reconnect....')
+    console.log('MongoDB disconnected. Attempting to reconnect....')
     connectDB(uri, opts, maxReties)
   })
   mongoose.connection.on('error', (err) => {
