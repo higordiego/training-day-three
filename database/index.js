@@ -1,30 +1,18 @@
 const mongoose = require('mongoose');
 
 const { wait } = require('../utils/timeout')
+const { logConnectionError } = require('../utils/logger')
+const { setupReconnection } = require('../utils/listening')
 
-const retryInterval = 2000
 
 const tryConnect = (uri, opts) => mongoose.connect(uri, opts)
 
-const setupReconnection = (uri, maxReties, opts) => {
-  mongoose.connection.on('disconnected', () => {
-    console.log('MongoDB disconnected. Attempting to reconnect....')
-    connectDB(uri, opts, maxReties)
-  })
-  mongoose.connection.on('error', (err) => {
-    console.log('MongoDB connection error: ', err)
-  })
-}
 
-const logConnectionError = (retries, maxReties, err) => {
-  console.log(`Connection attempt ${retries}/${maxReties} failed.`, err?.error)
-} 
-
-const connectDB = (uri, opts, maxReties, retries = 1) => {
+const connectDB = (uri, opts, retryInterval, maxReties, retries = 1) => {
   tryConnect(uri, opts)
     .then(() => {
       console.log('Mongodb connected...\n')
-      setupReconnection(uri, opts)
+      setupReconnection(mongoose, uri, maxReties, opts, connectDB)
       return true;
     }).catch(err => {
       logConnectionError(retries, maxReties, err)
@@ -40,11 +28,10 @@ const connectDB = (uri, opts, maxReties, retries = 1) => {
 
 const setQueryTimeout = (ms) => mongoose.set('maxTimeMS', ms)
 
-const initDBConnection = (uri, options, queryTimeout, maxReties) => {
+const initDBConnection = (uri, options, queryTimeout, retryInterval, maxReties) => {
   setQueryTimeout(queryTimeout)
-  return connectDB(uri, options, maxReties)
+  return connectDB(uri, options, retryInterval, maxReties)
 }
-
 
 
 module.exports = initDBConnection;

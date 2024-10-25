@@ -3,15 +3,9 @@
 
 # Api REST FULL
 
+MVC
+View -> Rota
+Middleware -> Checa pra mim (body, se já tem no banco de dados.)
+Controller -> Controller -> 
+Model -> Error
 
-routes -> Exposição de rotas (V)
-controllers -> "Que controla" (C)
-modelo -> Banco de dados (M) <-- caiu
-
-
-// mongoose -> Olha se conecta ai
-    -> Se conectou
-    -> Escuta quando o servidor desligar e me avisa
-
-
--------------------//---------------

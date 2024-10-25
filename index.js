@@ -1,20 +1,20 @@
 require('dotenv').config()
 const express = require('express');
-const bodyParser = require('body-parser');
 const todoRoutes = require('./routes/todoRoutes');
 const connectDB = require('./database');
-const { options, queryTimeout, maxReties } = require('./utils/config')
+const { options, queryTimeout, maxReties, retryInterval } = require('./utils/config')
 
 const app = express();
 
 connectDB(
-    process.env.MONGODB_URL_CONNECT, 
-    options, 
-    queryTimeout, 
+    process.env.MONGODB_URL_CONNECT,
+    options,
+    queryTimeout,
+    retryInterval,
     maxReties
 );
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use('/api', todoRoutes);
 
