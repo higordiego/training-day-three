@@ -1,6 +1,6 @@
 
 const { body, validationResult } = require('express-validator');
-const Todo = require('../../models/todo')
+const Todo = require('../../database/models/todo')
 
 exports.validateBody = [
     body('title').trim().notEmpty().isString(),

@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const todoRoutes = require('./routes/todoRoutes');
-const connectDB = require('./database');
+const connectDB = require('./database/config');
 const { options, queryTimeout, maxReties, retryInterval } = require('./utils/config')
 
 const app = express();
