@@ -1,6 +1,7 @@
-const Todo = require('../../models/todo');
+const { createTodo } = require('../../database/repository/todo');
+const { isValidate } = require('../../utils/validator')
 
-const { validateBody, isValidate, validateCreate } = require('../todo.middleware')
+const { validateBody, validateCreate } = require('./create.todo.middleware')
 
 exports.path = '/todos'
 exports.method = 'post'
@@ -8,13 +9,12 @@ exports.validate = [ validateBody, isValidate, validateCreate ]
 
 exports.handler = async (req, res) => {
   try {
-    const todo = new Todo({
+    const todo = await createTodo({
       title: req.body.title,
       completed: req.body.completed || false,
     });
-    const newTodo = await todo.save();
-    res.status(201).json(newTodo);
+    return res.status(201).json(todo);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 }

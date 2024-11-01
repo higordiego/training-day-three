@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const { wait } = require('../utils/timeout')
-const { logConnectionError } = require('../utils/logger')
-const { setupReconnection } = require('../utils/listening')
+const { wait } = require('../../utils/timeout')
+const { logConnectionError } = require('../../utils/logger')
+const { setupReconnection } = require('../../utils/listening')
 
 
 const tryConnect = (uri, opts) => mongoose.connect(uri, opts)

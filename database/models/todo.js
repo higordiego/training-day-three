@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2')
 
 const TodoSchema = new mongoose.Schema({
   title: {
@@ -11,4 +12,7 @@ const TodoSchema = new mongoose.Schema({
   },
 });
 
+TodoSchema.plugin(mongoosePaginate)
+
 module.exports = mongoose.model('Todo', TodoSchema);
+
