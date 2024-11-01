@@ -1,6 +1,5 @@
 require('dotenv').config()
 const express = require('express');
-const todoRoutes = require('./routes/todoRoutes');
 const connectDB = require('./database/config');
 const { options, queryTimeout, maxReties, retryInterval } = require('./utils/config')
 
@@ -16,7 +15,7 @@ connectDB(
 
 app.use(express.json());
 
-app.use('/api', todoRoutes);
+require('./utils/routes')(app)
 
 const PORT = process.env.PORT || 3000;
 

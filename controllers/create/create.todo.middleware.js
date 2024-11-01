@@ -1,5 +1,5 @@
 
-const { body, validationResult } = require('express-validator');
+const { body } = require('express-validator');
 const { findOne } = require('../../database/repository/todo')
 
 exports.validateBody = [
